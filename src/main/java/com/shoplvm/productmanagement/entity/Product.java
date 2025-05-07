@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+
 import lombok.Data;
 
 @Entity
@@ -22,8 +23,7 @@ public class Product {
   @JoinColumn(name = "category_id")
   private Category category;
 
-  @Lob
-  @Column(columnDefinition = "json")
+  @Column(columnDefinition = "longtext")
   private String detail;
 
   @Column(name = "created_at")
@@ -31,6 +31,7 @@ public class Product {
 
   @Column(name = "updated_at")
   private Timestamp updatedAt;
+
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<ProductImage> images;
