@@ -1,6 +1,7 @@
 package com.shoplvm.productmanagement.controller;
 
-import com.shoplvm.productmanagement.dto.ProductRequestDTO;
+import com.shoplvm.productmanagement.dto.request.CreateProductRequest;
+import com.shoplvm.productmanagement.dto.response.CreateProductResponse;
 import com.shoplvm.productmanagement.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,22 +12,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
-
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
-    private final ProductService productService;
+  private final ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequestDTO dto) {
-        Long id = productService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "message", "Thêm sản phẩm thành công",
-                "productId", id
-        ));
-    }
+  @PostMapping
+  public ResponseEntity<CreateProductResponse> createProduct(
+      @Valid @RequestBody CreateProductRequest dto) {
+    Long id = productService.create(dto);
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(
+            CreateProductResponse.builder()
+                .message("Thêm sản phẩm thành công")
+                .productId(id)
+                .build());
+  }
 }
-

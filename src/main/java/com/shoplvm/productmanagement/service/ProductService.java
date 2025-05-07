@@ -1,7 +1,7 @@
 package com.shoplvm.productmanagement.service;
 
-import com.shoplvm.productmanagement.dto.ProductRequestDTO;
+import com.shoplvm.productmanagement.dto.request.CreateProductRequest;
 
 public interface ProductService {
-    Long create(ProductRequestDTO dto);
+    Long create(CreateProductRequest dto);
 }

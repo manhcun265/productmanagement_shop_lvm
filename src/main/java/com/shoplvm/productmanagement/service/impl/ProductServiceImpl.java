@@ -1,16 +1,18 @@
 package com.shoplvm.productmanagement.service.impl;
 
-import com.shoplvm.productmanagement.dto.ProductRequestDTO;
-import com.shoplvm.productmanagement.model.*;
+import com.shoplvm.productmanagement.dto.request.CreateProductRequest;
+import com.shoplvm.productmanagement.entity.*;
 import com.shoplvm.productmanagement.repository.*;
 import com.shoplvm.productmanagement.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -20,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductStatusLogRepository statusLogRepository;
 
     @Override
-    public Long create(ProductRequestDTO dto) {
+    public Long create(CreateProductRequest dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
 
@@ -50,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
         statusLog.setLogDate(new Timestamp(System.currentTimeMillis()));
         statusLogRepository.save(statusLog);
 
+        log.info("Thêm sản phẩm thành công, productId={}", product.getId());
         return product.getId();
     }
 }
